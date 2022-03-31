@@ -32,7 +32,7 @@ namespace zich
         // overloading input operator
         friend istream &operator>>(istream &input, Matrix &mat);
 
-        vector<double> operation(const Matrix &otherMat, const string &oper);
+        vector<double> operation(const Matrix &otherMat, int scalar, const string &oper);
         Matrix operator+(const Matrix &otherMat);
         Matrix operator-(const Matrix &otherMat);
         Matrix operator-();
@@ -45,7 +45,7 @@ namespace zich
         Matrix operator++(int);
         Matrix operator--(int);
 
-        friend Matrix operator*(const double scalar, const Matrix &otherMat);
+        friend Matrix operator*(const double scalar, const Matrix &mat);
 
         Matrix &operator*=(const double scalar);
         Matrix &operator+=(Matrix const &otherMat);

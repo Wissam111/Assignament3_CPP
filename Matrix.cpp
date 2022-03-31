@@ -27,39 +27,63 @@ namespace zich
     Matrix Matrix::operator+(const Matrix &otherMat)
     {
 
-        return Matrix(operation(otherMat, "+"), _row, _col);
+        return Matrix(operation(otherMat, 0, "+"), _row, _col);
     }
 
     Matrix Matrix::operator-(const Matrix &otherMat)
     {
 
-        return Matrix(operation(otherMat, "-"), _row, _col);
+        return Matrix(operation(otherMat, 0, "-"), _row, _col);
     }
     Matrix Matrix::operator-()
     {
         // first arg doesnt matter
-        return Matrix(operation(*this, "-@"), _row, _col);
+        return Matrix(operation(*this, 0, "-@"), _row, _col);
     }
 
     Matrix Matrix::operator++(int)
     {
-        operation(*this, "_++");
+        operation(*this, 0, "a++");
         return *this;
     }
 
     Matrix &Matrix::operator++()
     {
-        operation(*this, "_++");
+        operation(*this, 0, "++a");
         return *this;
     }
     Matrix Matrix::operator--(int)
     {
-        operation(*this, "_--");
+        operation(*this, 0, "a--");
         return *this;
     }
     Matrix &Matrix::operator--()
     {
-        operation(*this, "_--");
+        operation(*this, 0, "--a");
+        return *this;
+    }
+    Matrix operator*(const double scalar, const Matrix &Mat)
+    {
+        vector<double> new_vec;
+
+        unsigned int index = 0;
+
+        for (int i = 0; i < Mat._row; i++)
+        {
+            for (int j = 0; j < Mat._col; j++)
+            {
+                new_vec.push_back(scalar * Mat._mat.at(i).at(j));
+                //    scalar *Mat._mat.at(i).at(j)
+            }
+        }
+
+        return Matrix(new_vec, Mat._row, Mat._col);
+    }
+
+    Matrix &Matrix::operator*=(const double scalar)
+    {
+
+        operation(*this, scalar, "*=");
         return *this;
     }
 
@@ -85,7 +109,7 @@ namespace zich
         return output;
     }
 
-    vector<double> Matrix::operation(const Matrix &otherMat, const string &oper)
+    vector<double> Matrix::operation(const Matrix &otherMat, int scalar, const string &oper)
     {
         vector<double> new_vec;
 
@@ -136,7 +160,7 @@ namespace zich
             }
         }
         // a++
-        else if (oper == "_++")
+        else if (oper == "a++")
         {
             for (int i = 0; i < _row; i++)
             {
@@ -148,7 +172,7 @@ namespace zich
             }
         }
         //+aa
-        else if (oper == "++_")
+        else if (oper == "++a")
         {
             for (int i = 0; i < _row; i++)
             {
@@ -160,7 +184,7 @@ namespace zich
             }
         }
         // a--
-        else if (oper == "_--")
+        else if (oper == "a--")
         {
             for (int i = 0; i < _row; i++)
             {
@@ -172,7 +196,7 @@ namespace zich
             }
         }
         //--a
-        else if (oper == "--_")
+        else if (oper == "--a")
         {
             for (int i = 0; i < _row; i++)
             {
@@ -180,6 +204,18 @@ namespace zich
                 {
 
                     --_mat[i][j];
+                }
+            }
+        }
+        // a*=scalar
+        else if (oper == "*=")
+        {
+            for (int i = 0; i < _row; i++)
+            {
+                for (int j = 0; j < _col; j++)
+                {
+
+                    _mat.at(i).at(j) *= scalar;
                 }
             }
         }
