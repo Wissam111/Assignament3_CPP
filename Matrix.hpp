@@ -10,29 +10,51 @@ using std::vector;
 namespace zich
 {
 
+    enum OPERATOR
+    {
+
+        plus,         // a+b
+        minus,        // a-b
+        minus1_left,  //--a
+        plus1_left,   //++a
+        plus1_right,  // a++
+        minus1_right, // a--
+        mutlNg1,      //-a
+        sc_mult,      // a*Scalar
+        sc_mutlEq,    // a*=Scalar
+        mult_mat,     // a*b
+        plusEq,       // a+=b
+
+    };
+    enum COMPARE
+    {
+
+        EQUAL,
+        NOTEQUAL,
+        GREATER,
+        SMALLER,
+        GREATER_EQ,
+        SMALLER_EQ,
+
+    };
+
     class Matrix
     {
 
     private:
-        // int _row, _col;
-        // 1d vector to 2d vector
-        // vector<vector<double>> _mat;
-        // map<int, map<int, double>> _mat;
-        // vector<double> _mat;
-
-    public:
         map<int, map<int, double>> _mat;
         int _row, _col;
-        // Matrix(vector<double> vec, int row, int col);
+
+    public:
         Matrix(vector<double> vec, int row, int col);
-        // Matrix();
         ~Matrix(){};
         // overloading output operator
         friend ostream &operator<<(ostream &output, const Matrix &matrix);
         // overloading input operator
         friend istream &operator>>(istream &input, Matrix &mat);
 
-        vector<double> operation(const Matrix &otherMat, int scalar, const string &oper);
+        vector<double> operation(const Matrix &otherMat, int scalar, OPERATOR opr);
+
         Matrix operator+(const Matrix &otherMat);
         Matrix operator-(const Matrix &otherMat);
         Matrix operator-();
@@ -52,7 +74,8 @@ namespace zich
         Matrix operator*(Matrix const &otherMat);
 
         // Overload Comparison Operators
-
+        friend bool compare(const Matrix &mat1, const Matrix &mat2, COMPARE cmp);
+        friend int sumMat(const Matrix &mat);
         friend bool operator==(const Matrix &mat1, const Matrix &mat2);
         friend bool operator!=(const Matrix &mat1, const Matrix &mat2);
         friend bool operator>(const Matrix &mat1, const Matrix &mat2);
