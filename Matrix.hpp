@@ -25,7 +25,8 @@ namespace zich
         sc_mutlEq, // a*=Scalar
         mult_mat,  // a*b
         plusEq,    // a+=b
-
+        minusEq,   // a-=b
+        chComp,
     };
     enum COMPARE
     {
@@ -66,6 +67,7 @@ namespace zich
         friend Matrix operator*(const double scalar, const Matrix &mat);
         Matrix &operator*=(const double scalar);
         Matrix &operator+=(Matrix const &otherMat);
+        Matrix &operator-=(Matrix const &otherMat);
         Matrix operator*(Matrix const &otherMat);
 
         //--------------help functions ---------------//

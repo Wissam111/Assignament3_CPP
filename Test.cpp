@@ -116,11 +116,18 @@ TEST_CASE("not valid  input test case")
     {
         for (int j = i + 1; j < 100; j++)
         {
+            bool res;
             m1.setRowCol(i, i);
             m2.setRowCol(j, j);
             CHECK_THROWS(m1 * m2);
             CHECK_THROWS(m1 + m2);
             CHECK_THROWS(m1 - m2);
+            CHECK_THROWS(res = (m1 <= m2));
+            CHECK_THROWS(res = (m1 >= m2));
+            CHECK_THROWS(res = (m1 == m2));
+            CHECK_THROWS(res = (m1 != m2));
+            CHECK_THROWS(res = (m1 > m2));
+            CHECK_THROWS(res = (m1 < m2));
         }
     }
 }
@@ -135,6 +142,7 @@ TEST_CASE("Test compare")
         Matrix m1 = generateRandomMatrix(i, i, 100, 50);
         //[150,200]
         Matrix m2 = generateRandomMatrix(i, i, 200, 150);
+
         CHECK((m1 > m2) == false);
         CHECK((m1 >= m2) == false);
         CHECK((m1 <= m2) == true);

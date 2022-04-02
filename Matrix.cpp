@@ -91,6 +91,11 @@ namespace zich
         operation(otherMat, 0, plusEq);
         return *this;
     }
+    Matrix &Matrix ::operator-=(Matrix const &otherMat)
+    {
+        operation(otherMat, 0, minusEq);
+        return *this;
+    }
 
     Matrix Matrix::operator*(Matrix const &otherMat)
     {
@@ -166,7 +171,8 @@ namespace zich
         }
         vector<double> new_vec;
         unsigned int index = 0;
-        double a, b;
+        double a = 0;
+        double b = 0;
 
         for (int i = 0; i < _row; i++)
         {
@@ -218,7 +224,9 @@ namespace zich
                 case plusEq:
                     _mat.at(i).at(j) += otherMat._mat.at(i).at(j);
                     break;
-
+                case minusEq:
+                    _mat.at(i).at(j) -= otherMat._mat.at(i).at(j);
+                    break;
                 case mult_mat:
                     return mulMat(*this, otherMat);
 
@@ -241,9 +249,13 @@ namespace zich
      */
     bool compare(const Matrix &mat1, const Matrix &mat2, COMPARE cmp)
     {
+        if (!checkValidation(mat1, mat2, chComp))
+        {
+            throw invalid_argument("invalid operation on the matrix");
+        }
 
-        bool ans;
-        double m1, m2;
+        double m1 = 0;
+        double m2 = 0;
         for (int i = 0; i < mat1._row; i++)
         {
             for (int j = 0; j < mat1._col; j++)
@@ -256,12 +268,16 @@ namespace zich
                 case EQUAL:
 
                     if (m1 != m2)
+                    {
                         return false;
+                    }
                     break;
 
                 case NOTEQUAL:
                     if (m1 != m2)
+                    {
                         return true;
+                    }
                     break;
                 case GREATER:
                     if (sumMat(mat1) > sumMat(mat2))
@@ -331,7 +347,7 @@ namespace zich
             for (int j = 0; j < mat2._col; j++)
             {
 
-                int temp = 0;
+                double temp = 0;
                 for (int k = 0; k < mat2._row; k++)
                 {
 
@@ -349,7 +365,7 @@ namespace zich
      */
     bool checkValidation(const Matrix &mat1, const Matrix &mat2, OPERATOR opr)
     { // n*m m*k
-        if ((opr == plus || opr == minus || opr == plusEq) && ((mat1._col != mat2._col) || (mat1._row != mat2._row)))
+        if ((opr == plus || opr == minus || opr == plusEq || opr == chComp) && ((mat1._col != mat2._col) || (mat1._row != mat2._row)))
         {
             return false;
         }
