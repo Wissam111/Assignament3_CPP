@@ -1,3 +1,10 @@
+
+/*
+ * AUTHORS: Wissam kabha
+ * gitHub: https://github.com/Wissam111
+ * Date: 03/2022
+ */
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -76,6 +83,7 @@ namespace zich
         friend bool checkValidation(const Matrix &mat1, const Matrix &mat2, OPERATOR opr);
         vector<double> operation(const Matrix &otherMat, double scalar, OPERATOR opr);
         friend vector<double> mulMat(const Matrix &mat1, const Matrix &mat2);
+        // just for testing
         void setRowCol(int row, int col)
         {
             _col = col;

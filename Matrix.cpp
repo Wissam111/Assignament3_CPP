@@ -1,3 +1,9 @@
+/*
+ * AUTHORS: Wissam kabha
+ * gitHub: https://github.com/Wissam111
+ * Date: 03/2022
+ */
+
 #include "Matrix.hpp"
 
 namespace zich
@@ -5,7 +11,7 @@ namespace zich
 
     Matrix::Matrix(vector<double> vec, int row, int col)
     {
-        if (row <= 0 || col <= 0)
+        if ((row <= 0 || col <= 0) || vec.size() != row * col)
         {
             throw invalid_argument("numbers should be postives");
         }
@@ -158,7 +164,20 @@ namespace zich
         return output;
     }
 
-    istream &operator>>(istream &input, Matrix &mat);
+    istream &operator>>(istream &input, Matrix &matrix)
+    {
+
+        for (int i = 0; i < matrix._row; i++)
+        {
+            for (int j = 0; j < matrix._col; j++)
+            {
+
+                input >> matrix._mat[i][j];
+            }
+        }
+
+        return input;
+    }
 
     /*
      * @brief fucntion that handle +,- , etc operators
